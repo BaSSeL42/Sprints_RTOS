@@ -78,6 +78,15 @@
 #define LED_OFF			0
 #define LED_ON			1
 
+#define LOAD1_TASK_DELAY		500
+#define LOAD2_TASK_DELAY		100
+
+#define MAX_STR_COUNT			10
+#define HEAVY_LOAD				100000
+#define SIMPLE_LOAD				10000
+
+
+
 
 TaskHandle_t xLoad1Handle = NULL;
 TaskHandle_t xLoad2Handle = NULL;
@@ -201,9 +210,9 @@ void vLoad1TaskCode( void * pvParameters )
         {
 					GPIO_write(PORT_0, PIN1, PIN_IS_HIGH);
 					
-					for (loc_u32_string_index_count = 0; loc_u32_string_index_count < 10; loc_u32_string_index_count++)
+					for (loc_u32_string_index_count = 0; loc_u32_string_index_count < MAX_STR_COUNT; loc_u32_string_index_count++)
 					{
-						for (loc_u32_counter = 0; loc_u32_counter < 100000; loc_u32_counter++ )
+						for (loc_u32_counter = 0; loc_u32_counter < HEAVY_LOAD; loc_u32_counter++ )
 						{
 							/* do nothing */
 						}
@@ -213,7 +222,7 @@ void vLoad1TaskCode( void * pvParameters )
 						
             xSemaphoreGive( xSemaphore );
         }
-			vTaskDelay(500);					
+			vTaskDelay(LOAD1_TASK_DELAY);					
     }
 }
 
@@ -230,9 +239,9 @@ void vLoad2TaskCode( void * pvParameters )
         if( xSemaphoreTake( xSemaphore, ( TickType_t ) 0 ) == pdTRUE )
         {
 					GPIO_write(PORT_0, PIN2, PIN_IS_HIGH);
-						for (loc_u32_string_index_count = 0; loc_u32_string_index_count < 10; loc_u32_string_index_count++ )
+						for (loc_u32_string_index_count = 0; loc_u32_string_index_count < MAX_STR_COUNT; loc_u32_string_index_count++ )
 						{
-							for (loc_u32_counter = 0; loc_u32_counter < 10000; loc_u32_counter++ )
+							for (loc_u32_counter = 0; loc_u32_counter < SIMPLE_LOAD; loc_u32_counter++ )
 							{
 								/* do nothing */
 							}
@@ -243,7 +252,7 @@ void vLoad2TaskCode( void * pvParameters )
             xSemaphoreGive( xSemaphore );
         }
 				
-			vTaskDelay(100);			
+			vTaskDelay(LOAD2_TASK_DELAY);			
     }
 }
 

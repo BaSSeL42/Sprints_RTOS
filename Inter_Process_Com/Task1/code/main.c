@@ -75,8 +75,15 @@
 /* Constants for the ComTest demo application tasks. */
 #define mainCOM_TEST_BAUD_RATE	( ( unsigned long ) 115200 )
 
-#define LED_OFF			0
-#define LED_ON			1
+#define LED_OFF				0
+#define LED_ON				1
+
+#define LED_TASK_DELAY		55
+#define BUTTON_TASK_DELAY	50
+
+#define PRESS_STATE_HIGH	1
+#define PRESS_STATE_LOW		0
+
 
 
 TaskHandle_t xLedHandle = NULL;
@@ -212,7 +219,7 @@ void vLedTaskCode( void * pvParameters )
 						}
             xSemaphoreGive( xSemaphore );
         }
-			vTaskDelay(55);					
+			vTaskDelay(LED_TASK_DELAY);					
     }
 }
 
@@ -234,19 +241,19 @@ void vButtonTaskCode( void * pvParameters )
 							if (gl_u8_press_state == 0)
 							{
 								gl_u8_led_state = LED_ON;
-								gl_u8_press_state = 1;
+								gl_u8_press_state = PRESS_STATE_HIGH;
 							}
 							else 
 							{
 								gl_u8_led_state = LED_OFF;
-								gl_u8_press_state = 0;
+								gl_u8_press_state = PRESS_STATE_LOW;
 							}
 							
 						}
             xSemaphoreGive( xSemaphore );
         }
 				
-			vTaskDelay(50);			
+			vTaskDelay(BUTTON_TASK_DELAY);			
     }
 }
 

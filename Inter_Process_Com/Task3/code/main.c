@@ -82,8 +82,11 @@
 #define BUTTON_1_DETECTED			1
 #define BUTTON_2_DETECTED			2
 
-
-
+#define SIMPLE_LOAD					10000
+#define BUTTON_TASK1_DELAY			100
+#define BUTTON_TASK2_DELAY			100
+#define CONSUMER_TASK_DELAY			100
+#define SEND_STR_TASK_DELAY			1000
 
 
 TaskHandle_t xSendStr1Handle = NULL;
@@ -247,7 +250,7 @@ void vSendStr1Code( void * pvParameters )
 					{
 						/* *pxRxedPointer now points to xMessage. */
 						
-							for (loc_u32_counter = 0; loc_u32_counter < 10000; loc_u32_counter++ )
+							for (loc_u32_counter = 0; loc_u32_counter < SIMPLE_LOAD; loc_u32_counter++ )
 							{
 								/* do nothing */
 							}
@@ -256,7 +259,7 @@ void vSendStr1Code( void * pvParameters )
 					}
 			}
 
-			vTaskDelay(1000);
+			vTaskDelay(SEND_STR_TASK_DELAY);
     }
 }
 
@@ -299,9 +302,10 @@ void vConsumerTaskCode( void * pvParameters )
 				/* do nothing */
 			}
 
-			vTaskDelay(100);
+			vTaskDelay(CONSUMER_TASK_DELAY);
     }
 }
+
 
 
 void vButtonTask1Code( void * pvParameters )
@@ -321,7 +325,7 @@ void vButtonTask1Code( void * pvParameters )
 				prevButtonState = gl_buttonState1;
 			}
 				
-			vTaskDelay(100);
+			vTaskDelay(BUTTON_TASK1_DELAY);
     }
 }
 
@@ -344,6 +348,6 @@ void vButtonTask2Code( void * pvParameters )
 				
 			}
 				
-			vTaskDelay(100);
+			vTaskDelay(BUTTON_TASK2_DELAY);
     }
 }
