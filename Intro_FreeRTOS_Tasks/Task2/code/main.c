@@ -74,6 +74,9 @@
 /* Constants for the ComTest demo application tasks. */
 #define mainCOM_TEST_BAUD_RATE	( ( unsigned long ) 115200 )
 
+#define TASK1_LED_DELAY				100
+#define TASK2_LED_DELAY				500
+#define TASK3_LED_DELAY				1000
 
 
 
@@ -200,9 +203,9 @@ void vLedTask1Code( void * pvParameters )
     for( ;; )
     {
 				GPIO_write(PORT_0, PIN1, PIN_IS_HIGH);
-				vTaskDelay(100);
+				vTaskDelay(TASK1_LED_DELAY);
 				GPIO_write(PORT_0, PIN1, PIN_IS_LOW);
-				vTaskDelay(100);			
+				vTaskDelay(TASK1_LED_DELAY);			
     }
 }
 
@@ -215,9 +218,9 @@ void vLedTask2Code( void * pvParameters )
     for( ;; )
     {
 				GPIO_write(PORT_0, PIN2, PIN_IS_HIGH);
-				vTaskDelay(500);
+				vTaskDelay(TASK2_LED_DELAY);
 				GPIO_write(PORT_0, PIN2, PIN_IS_LOW);
-				vTaskDelay(500);			
+				vTaskDelay(TASK2_LED_DELAY);			
     }
 }
 
@@ -231,9 +234,9 @@ void vLedTask3Code( void * pvParameters )
     for( ;; )
     {
 				GPIO_write(PORT_0, PIN3, PIN_IS_HIGH);
-				vTaskDelay(1000);
+				vTaskDelay(TASK3_LED_DELAY);
 				GPIO_write(PORT_0, PIN3, PIN_IS_LOW);
-				vTaskDelay(1000);			
+				vTaskDelay(TASK3_LED_DELAY);			
     }
 }
 

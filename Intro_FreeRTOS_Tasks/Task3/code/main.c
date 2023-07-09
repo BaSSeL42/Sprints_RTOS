@@ -75,6 +75,12 @@
 #define mainCOM_TEST_BAUD_RATE	( ( unsigned long ) 115200 )
 
 
+#define ONE_SEC_DELAY			1000
+#define LED_TASK_DELAY			100
+#define LED_SEQ1_DELAY			400
+#define LED_SEQ2_DELAY			200
+#define LED_SEQ3_DELAY			100
+#define BUTTON_TASK_DELAY		500
 
 
 TaskHandle_t xLedHandle = NULL;
@@ -192,7 +198,7 @@ void vLedTaskCode( void * pvParameters )
 			if(gl_u32_task_periodicity == 0)
 			{
 				GPIO_write(PORT_0, PIN1, PIN_IS_LOW);
-				vTaskDelay(100);
+				vTaskDelay(LED_TASK_DELAY);
 			}
 			else
 			{
@@ -216,7 +222,7 @@ void vButtonTaskCode( void * pvParameters )
 		{
 			while(GPIO_read(PORT_0, PIN0) == 0)
 			{
-				vTaskDelay(1000);
+				vTaskDelay(ONE_SEC_DELAY);
 				gl_u32_counting_every_one_sec++;
 			}
 			
@@ -224,26 +230,26 @@ void vButtonTaskCode( void * pvParameters )
 			{
 				gl_u32_task_periodicity = 400;
 				gl_u32_counting_every_one_sec = 0;
-				vTaskDelay(500);
+				vTaskDelay(LED_SEQ1_DELAY);
 			}
 			else if(gl_u32_counting_every_one_sec > 4)
 			{
 				gl_u32_task_periodicity = 100;
 				gl_u32_counting_every_one_sec = 0;
-				vTaskDelay(200);
+				vTaskDelay(LED_SEQ2_DELAY);
 			}
 			else if(gl_u32_counting_every_one_sec < 2)
 			{
 				gl_u32_task_periodicity = 0;
 				gl_u32_counting_every_one_sec = 0;
-				vTaskDelay(100);
+				vTaskDelay(LED_SEQ3_DELAY);
 			}
 			else 
 			{
 				/* do nothing */
 			}
 			
-			vTaskDelay(500);
+			vTaskDelay(BUTTON_TASK_DELAY);
 		}
 	}
 	

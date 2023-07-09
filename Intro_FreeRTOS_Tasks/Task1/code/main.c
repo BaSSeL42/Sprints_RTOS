@@ -74,7 +74,7 @@
 /* Constants for the ComTest demo application tasks. */
 #define mainCOM_TEST_BAUD_RATE	( ( unsigned long ) 115200 )
 
-
+#define LED_DELAY			1000
 
 
 TaskHandle_t xLedHandle = NULL;
@@ -181,9 +181,9 @@ void vLedTaskCode( void * pvParameters )
     for( ;; )
     {
 				GPIO_write(PORT_0, PIN1, PIN_IS_HIGH);
-				vTaskDelay(1000);
+				vTaskDelay(LED_DELAY);
 				GPIO_write(PORT_0, PIN1, PIN_IS_LOW);
-				vTaskDelay(1000);			
+				vTaskDelay(LED_DELAY);			
     }
 }
 
