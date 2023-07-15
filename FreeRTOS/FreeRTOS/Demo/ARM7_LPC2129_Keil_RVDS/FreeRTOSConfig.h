@@ -47,7 +47,7 @@
  *----------------------------------------------------------*/
 
 #define configUSE_PREEMPTION		1
-#define configUSE_IDLE_HOOK			0
+#define configUSE_IDLE_HOOK			1
 #define configUSE_TICK_HOOK			1
 #define configCPU_CLOCK_HZ			( ( unsigned long ) 60000000 )	/* =12.0MHz xtal multiplied by 5 using the PLL. */
 #define configTICK_RATE_HZ			( ( TickType_t ) 1000 )
@@ -84,7 +84,8 @@ to exclude the API function. */
 #define INCLUDE_vTaskDelay				1
 
 
-	
+	#define traceTASK_SWITCHED_IN() GPIO_write(PORT_0, (int)pxCurrentTCB->pxTaskTag, PIN_IS_HIGH);
+	#define traceTASK_SWITCHED_OUT() GPIO_write(PORT_0, (int)pxCurrentTCB->pxTaskTag, PIN_IS_LOW);
 
 
 																		

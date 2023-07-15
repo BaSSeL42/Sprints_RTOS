@@ -132,13 +132,13 @@ static void prvSetupHardware( void );
  pinState_t buttonInput;
 
 
-
+/*
 void vApplicationTickHook( void )
 {
 	GPIO_write(PORT_0, PIN1, PIN_IS_HIGH);
 	GPIO_write(PORT_0, PIN1, PIN_IS_LOW);
 }
-
+*/
 
 /*
 void vApplicationIdleHook( void )
@@ -158,7 +158,11 @@ SemaphoreHandle_t Semaphore_Handler;
 
 void Button_1_Monitor( void * pvParameters )
 {
-
+			TickType_t xLastWakeTime;
+			xLastWakeTime = xTaskGetTickCount();
+	
+		vTaskSetApplicationTaskTag(NULL, (void *) PIN4);
+		
     for( ;; )
     {
 			botton_1_state = botton_read(BOTTON_1);					// read botton status
@@ -180,14 +184,22 @@ void Button_1_Monitor( void * pvParameters )
 					// do nothing
 				}
 			botton_1_prv_state = botton_1_state;
-			vTaskDelay(BOTTON_1_PERIOD);									// block the task
+					
+			vTaskDelayUntil(&xLastWakeTime, BOTTON_1_PERIOD);
+				
+				GPIO_write(PORT_0, PIN8, PIN_IS_LOW);
+				
     }
 }
 
 
 void Button_2_Monitor( void * pvParameters )
 {
-
+			TickType_t xLastWakeTime;
+			xLastWakeTime = xTaskGetTickCount();
+	
+		vTaskSetApplicationTaskTag(NULL, (void *) PIN5);
+	
     for( ;; )
     {
 			botton_2_state = botton_read(BOTTON_2);					// read botton status
@@ -206,7 +218,9 @@ void Button_2_Monitor( void * pvParameters )
 					// do nothing
 				}
 			botton_2_prv_state = botton_2_state;
-			vTaskDelay(BOTTON_2_PERIOD);									// block the task
+			vTaskDelayUntil(&xLastWakeTime, BOTTON_2_PERIOD);
+				
+				GPIO_write(PORT_0, PIN8, PIN_IS_LOW);
     }
 }
 
@@ -215,6 +229,10 @@ void Button_2_Monitor( void * pvParameters )
 
 void Periodic_Transmitter( void * pvParameters )
 {
+			TickType_t xLastWakeTime;
+			xLastWakeTime = xTaskGetTickCount();
+	
+		vTaskSetApplicationTaskTag(NULL, (void *) PIN3);
 
     //static unsigned char semaphore_state = pdFALSE ;
 		for(;;)
@@ -226,7 +244,11 @@ void Periodic_Transmitter( void * pvParameters )
 				vSerialPutString(string_1, string_1_size);
 				xSemaphoreGive( Semaphore_Handler);
 			}*/
-			vTaskDelay(Periodic_Transmitter_PERIOD);									// block the task
+		
+			vTaskDelayUntil(&xLastWakeTime, Periodic_Transmitter_PERIOD);
+			
+			GPIO_write(PORT_0, PIN8, PIN_IS_LOW);
+		
     }
 }
 
@@ -234,7 +256,14 @@ void Periodic_Transmitter( void * pvParameters )
 
 void Uart_Receiver( void * pvParameters )
 {
-	static unsigned char semaphore_state = pdFALSE ;
+	
+		static unsigned char semaphore_state = pdFALSE ;
+	
+			TickType_t xLastWakeTime;
+			xLastWakeTime = xTaskGetTickCount();
+	
+	vTaskSetApplicationTaskTag(NULL, (void *) PIN2);
+	
     for( ;; )
     {
 			if(consumer_task_data[0] == RISING_EDGE)
@@ -289,21 +318,33 @@ void Uart_Receiver( void * pvParameters )
 				}
 				consumer_task_data[2] = 0;
 			}
-			vTaskDelay(Uart_Receiver_PERIOD);									// block the task
+
+			vTaskDelayUntil(&xLastWakeTime, Uart_Receiver_PERIOD);
+			
+			GPIO_write(PORT_0, PIN8, PIN_IS_LOW);
+
     }
 }
 
 // 9990
 void Load_1_Simulation( void * pvParameters )
 {
+			TickType_t xLastWakeTime;
+			xLastWakeTime = xTaskGetTickCount();
+	
+		vTaskSetApplicationTaskTag(NULL, (void *) PIN6);
     for( ;; )
     {
-			unsigned int i = 0;
-			for(i = 0 ; i < 9990 ; i++)
+			 uint32_t i = 0;
+			for(i = 0 ; i < 37000 ; i++)
 			{
 				// heavy load for 5 ms
 			}
-			vTaskDelay(Load_1_Simulation_PERIOD);									// block the task
+
+			vTaskDelayUntil(&xLastWakeTime, Load_1_Simulation_PERIOD);
+			
+			GPIO_write(PORT_0, PIN8, PIN_IS_LOW);
+
     }
 }
 
@@ -311,17 +352,37 @@ void Load_1_Simulation( void * pvParameters )
 // 23000
 void Load_2_Simulation( void * pvParameters )
 {
+			TickType_t xLastWakeTime;
+			xLastWakeTime = xTaskGetTickCount();
+	
+	 vTaskSetApplicationTaskTag(NULL, (void *) PIN7);
     for( ;; )
     {
-			unsigned int i = 0;
-			for(i = 0 ; i < 23000 ; i++)
+			uint32_t i = 0;
+			for(i = 0 ; i < 87000 ; i++)
 			{
 				// heavy load for 12 ms
 			}
-			vTaskDelay(Load_2_Simulation_PERIOD);									// block the task
+			vTaskDelayUntil(&xLastWakeTime, Load_2_Simulation_PERIOD);
+			
+			//toggling idlehook
+			GPIO_write(PORT_0, PIN8, PIN_IS_LOW);
     }
+		
 }
 
+/* System tick */
+void vApplicationTickHook(void)
+ {  
+		GPIO_write(PORT_0, PIN9, PIN_IS_HIGH);
+	 
+		GPIO_write(PORT_0, PIN9, PIN_IS_LOW);
+ }
+ 
+ void vApplicationIdleHook(void)
+{
+GPIO_write(PORT_0, PIN8, PIN_IS_HIGH);
+}
 
 /*
  * Application entry point:

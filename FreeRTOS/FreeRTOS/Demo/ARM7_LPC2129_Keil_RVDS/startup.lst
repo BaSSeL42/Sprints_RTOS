@@ -644,10 +644,10 @@ ze + USR_Stack_Size)
               00000308 
               00000000 
 Command Line: --debug --xref --diag_suppress=9931 --apcs=interwork --depend=.\b
-in\startup.d -o.\bin\startup.o -I..\..\Source\portable\RVDS\ARM7_LPC21xx -I"D:\
-WIN PROG\ARM\RV31\INC" -I"D:\WIN PROG\ARM\CMSIS\Include" -I"D:\WIN PROG\ARM\INC
-\Philips" --predefine="__EVAL SETA 1" --predefine="__UVISION_VERSION SETA 529" 
---list=.\startup.lst Startup.s
+in\startup.d -o.\bin\startup.o -I..\..\Source\portable\RVDS\ARM7_LPC21xx -IC:\K
+eil_v5\ARM\RV31\INC -IC:\Keil_v5\ARM\CMSIS\Include -IC:\Keil_v5\ARM\INC\Philips
+ --predefine="__EVAL SETA 1" --predefine="__UVISION_VERSION SETA 529" --list=.\
+startup.lst Startup.s
 
 
 

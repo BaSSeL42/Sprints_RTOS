@@ -5,16 +5,16 @@
 
 PinConfig_t PinConfig_array[] = 
 							{
-								{PORT_0, PIN0, INPUT},
-								{PORT_0, PIN1, INPUT},
-								{PORT_0, PIN2, OUTPUT},
-								{PORT_0, PIN3, OUTPUT},
-								{PORT_0, PIN4, OUTPUT},
-								{PORT_0, PIN5, OUTPUT},
-								{PORT_0, PIN6, OUTPUT},
-								{PORT_0, PIN7, OUTPUT},
-								{PORT_0, PIN8, OUTPUT},
-								{PORT_0, PIN9, OUTPUT},
+								{PORT_0, PIN0, INPUT}, //Button1
+								{PORT_0, PIN1, INPUT}, //Button1
+								{PORT_0, PIN2, OUTPUT}, //uART TASK HOOK OUTPUT
+								{PORT_0, PIN3, OUTPUT}, //PERIODIC Transmitter TASK HOOK OUTPUT
+								{PORT_0, PIN4, OUTPUT}, //BUTTON1 HOOK OUTPUT
+								{PORT_0, PIN5, OUTPUT},  //BUTTON2 HOOK OUTPUT
+								{PORT_0, PIN6, OUTPUT}, // /lood1
+								{PORT_0, PIN7, OUTPUT}, //load2
+								{PORT_0, PIN8, OUTPUT},// Idle HOOK OUTPUT
+								{PORT_0, PIN9, OUTPUT},// TICK HOOK OUTPUT
 								{PORT_0, PIN10, OUTPUT},
 								{PORT_0, PIN11, OUTPUT},
 								{PORT_0, PIN13, OUTPUT},
