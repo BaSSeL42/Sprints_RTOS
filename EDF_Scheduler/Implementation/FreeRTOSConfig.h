@@ -68,6 +68,7 @@
 
 #define configQUEUE_REGISTRY_SIZE 	0
 
+#define IDLE_PERIOD					300
 /* Co-routine definitions. */
 #define configUSE_CO_ROUTINES 		0
 #define configMAX_CO_ROUTINE_PRIORITIES ( 2 )
