@@ -2157,7 +2157,7 @@ void vTaskStartScheduler( void )
 					
 						#if (configUSE_EDF_SCHEDULER == 1)
 								{
-									TickType_t initIDLEPeriod = IDLE_PERIOD;
+									TickType_t initIDLEPeriod = 300;
 									xReturn = xTaskPeriodicCreate( prvIdleTask, "IDLE", tskIDLE_STACK_SIZE, (void * ) NULL, portPRIVILEGE_BIT, &xIdleTaskHandle,initIDLEPeriod );
 								}
 						#else
@@ -2967,7 +2967,7 @@ BaseType_t xTaskIncrementTick( void )
                      * list. */
                     prvAddTaskToReadyList( pxTCB );
 										/*So xSwitchRequired is a flag that indicate that need for context switch*/
-										xSwitchRequired = pdTRUE;
+										//xSwitchRequired = pdTRUE;
 										
 										#else
 										prvAddTaskToReadyList( pxTCB );
@@ -2977,6 +2977,21 @@ BaseType_t xTaskIncrementTick( void )
                      * context switch if preemption is turned off. */
                     #if ( configUSE_PREEMPTION == 1 )
                         {
+													
+													
+													#if (configUSE_EDF_SCHEDULER == 1)
+													
+                            if( pxTCB->xStateListItem.xItemValue >= pxCurrentTCB->xStateListItem.xItemValue )
+                            {
+                                xSwitchRequired = pdTRUE;
+                            }
+                            else
+                            {
+                                mtCOVERAGE_TEST_MARKER();
+                            }													
+													
+													
+													#else
                             /* Preemption is on, but a context switch should
                              * only be performed if the unblocked task has a
                              * priority that is equal to or higher than the
@@ -2989,6 +3004,7 @@ BaseType_t xTaskIncrementTick( void )
                             {
                                 mtCOVERAGE_TEST_MARKER();
                             }
+													#endif
                         }
                     #endif /* configUSE_PREEMPTION */
                 }
